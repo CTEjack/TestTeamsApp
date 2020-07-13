@@ -1,0 +1,11 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Contextere",
+      "unitTestsEnabled": true,
+      "useAzureAppInsights": false
+    },
+    "libraryName": "testYoTeamsApp",
+    "generator-version": "2.15.0-preview3"
+  }
+}
