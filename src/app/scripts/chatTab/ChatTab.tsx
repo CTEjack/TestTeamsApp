@@ -6,10 +6,16 @@ import * as microsoftTeams from "@microsoft/teams-js";
  * State for the chatTabTab React component
  */
 export interface IChatTabState extends ITeamsBaseComponentState {
-    entityId?: string,
-    sensor: 1;
-    // loading: boolean,
-    // sensor: null
+    entityId?: string;
+    machineId: GUID;
+    time: Date;
+    voltage: number;
+    temperature: number;
+    light: number;
+}
+type GUID = string & { isGuid: true};
+function guid(guid: string) : GUID {
+    return  guid as GUID; // maybe add validation that the parameter is an actual guid ?
 }
 
 // export default class FetchSensorData extends React.Component {
@@ -54,20 +60,24 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
 
     }
 
-    //JACK: attempting to fetch api data and display it in the console
-    //Tutorial:   https://www.youtube.com/watch?time_continue=76&v=T3Px88x_PsA&feature=emb_logo
+    //  JACK: attempting to fetch api data and display it in the console
+    // Tutorial:   https://www.youtube.com/watch?time_continue=76&v=T3Px88x_PsA&feature=emb_logo
     // I needed to add a proxy URL to get around a CORS fetch error. Append this to the front of a URL to get around the error https://cors-anywhere.herokuapp.com/
-    async componentDidMount(){
+    public async componentDidMount() {
         const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/";
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
         const data = await response.json();
-        this.setState({ sensor: data});
+        this.setState({ 
+            machineId: data.machineId, 
+            time: data.time, 
+            voltage: data.voltage, 
+            temperature: data.temperature, 
+            light: data.light 
+        });
     }
 
-
-    
-    // //-------------different method to fetch the JSON data-------------
+    // -------------different method to fetch the JSON data-------------
     // componentDidMount(){
     //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/";
     //     const proxy = "https://cors-anywhere.herokuapp.com/";
@@ -89,15 +99,13 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
      */
     public render() {
         const gridStyles = {
-            margin: '1rem',
-            padding: '2rem',
-            border: '2rem solid red',
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
-            boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)'
+            margin: "1rem",
+            padding: "2rem",
+            border: "2rem solid red",
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)"
         };
-        console.log(this.state.sensor);
-        return (
-            <Provider theme={this.state.theme}>
+        return (<Provider theme={this.state.theme}>
                 <Flex fill={true} column styles={{
                     padding: ".8rem 0 .8rem .5rem"
                 }}>
@@ -111,26 +119,11 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 <Text content={this.state.entityId} />
                             </div>
 
-                            {/* <div>
-                                {this.state.loading || !this.state.sensor ? (
-                                    <div>loading...</div>
-                                ) : (
-                                    <div>
-                                        <div>
-                                            {this.state.sensor}
-                                        </div>
-                                    </div>
-                                )}
-                            </div> */}
+                            <div>{this.state.machineId}</div>
 
-                            <div>{this.state.sensor}</div>
-
-                            {/* <div>
-                                {this.state.sensor.map((SensorDetail) => {
-                                    return (
-                                    <p>{SensorDetail.voltage}</p>
-                                );})}
-                            </div> */}
+                            { <div>
+                                {this.state.voltage + " volts"}
+                            </div> }
 
                         <Grid>
                             <Image
