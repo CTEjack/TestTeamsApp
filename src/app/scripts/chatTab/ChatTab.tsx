@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, Loader } from "@fluentui/react-northstar";
+import { Provider, Flex, Text, Button, Header, Loader, Card, CardHeader, CardBody, Avatar } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 /**
@@ -114,19 +114,31 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 <Text content={this.state.entityId} />
                             </div>
 
-                            <div>
-                                {this.state.loading || !this.state.voltage ? 
-                                    <Loader label="Fetching voltage data..."/> 
-                                    : 
-                                    <div>{this.state.voltage + " volts"}</div>
-                                }
-                            </div>
 
-                            {/* <div>{this.state.machineId}</div>
-
-                            { <div>
-                                {this.state.voltage + " volts"}
-                            </div> } */}
+                            <Card>
+                                <CardHeader>
+                                    <Flex gap="gap.small">
+                                        <Avatar
+                                            image="../assets/agent_avatar.png"
+                                            label="Intelligent Agent"
+                                            name="Contextere"
+                                            status="online"
+                                        />
+                                        <Flex column>
+                                            <Text content="Contextere" weight="bold" />
+                                            <Text content="Intelligent Agent" size="small" />
+                                        </Flex>
+                                    </Flex>
+                                </CardHeader>
+                                <CardBody>
+                                    {this.state.loading || !this.state.voltage ? 
+                                        <Loader label="Fetching voltage data..."/> 
+                                        : 
+                                        <Text content={this.state.voltage + " volts"} />
+                                    }
+                                    <Text content={this.state.time} />
+                                </CardBody>
+                            </Card>
 
                             <div>
                                 <Button onClick={() => alert("clicked")}>Click this button</Button>
