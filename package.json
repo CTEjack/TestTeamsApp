@@ -21,6 +21,7 @@
     "express": "4.16.4",
     "express-msteams-host": "1.6.2",
     "express-session": "1.15.6",
+    "gulp-cli": "^2.3.0",
     "morgan": "1.9.1",
     "msteams-react-base-component": "^2.1.0",
     "msteams-ui-components-react": "^0.8.4",
@@ -45,13 +46,14 @@
     "enzyme-to-json": "^3.3.5",
     "fancy-log": "1.3.2",
     "file-loader": "1.1.11",
-    "gulp": "4.0.2",
+    "gulp": "^4.0.2",
     "gulp-if": "^2.0.2",
     "gulp-inject": "5.0.2",
     "gulp-load-plugins": "^1.6.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-sass": "^4.0.2",
+    "gulp-serve": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-token-replace": "1.1.5",
     "gulp-zip": "4.2.0",
@@ -103,5 +105,16 @@
     "coverageReporters": [
       "text"
     ]
-  }
+  },
+  "main": "gulp.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CTEjack/TestTeamsApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CTEjack/TestTeamsApp/issues"
+  },
+  "homepage": "https://github.com/CTEjack/TestTeamsApp#readme"
 }
