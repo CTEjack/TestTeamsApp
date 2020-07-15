@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Provider, Flex, Text, Button, Header, Grid, Image } from "@fluentui/react-northstar";
+import { Provider, Flex, Text, Button, Header, Loader } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 /**
@@ -7,6 +7,7 @@ import * as microsoftTeams from "@microsoft/teams-js";
  */
 export interface IChatTabState extends ITeamsBaseComponentState {
     entityId?: string;
+    loading: boolean;
     machineId: GUID;
     time: Date;
     voltage: number;
@@ -73,7 +74,8 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
             time: data.time, 
             voltage: data.voltage, 
             temperature: data.temperature, 
-            light: data.light 
+            light: data.light,
+            loading: false 
         });
     }
 
@@ -98,13 +100,6 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
      * The render() method to create the UI of the tab
      */
     public render() {
-        const gridStyles = {
-            margin: "1rem",
-            padding: "2rem",
-            border: "2rem solid red",
-            backgroundColor: "rgba(255, 255, 255, 0.85)",
-            boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)"
-        };
         return (<Provider theme={this.state.theme}>
                 <Flex fill={true} column styles={{
                     padding: ".8rem 0 .8rem .5rem"
@@ -119,32 +114,19 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 <Text content={this.state.entityId} />
                             </div>
 
-                            <div>{this.state.machineId}</div>
+                            <div>
+                                {this.state.loading || !this.state.voltage ? 
+                                    <Loader label="Fetching voltage data..."/> 
+                                    : 
+                                    <div>{this.state.voltage + " volts"}</div>
+                                }
+                            </div>
+
+                            {/* <div>{this.state.machineId}</div>
 
                             { <div>
                                 {this.state.voltage + " volts"}
-                            </div> }
-
-                        <Grid>
-                            <Image
-                                key="one"
-                                fluid
-                                src="https://picsum.photos/20"
-                                style={{msGridRow: 1, msGridColumn: 1, gridStyles} as React.CSSProperties}
-                            />
-                            <Image
-                                key="two"
-                                fluid
-                                src="https://picsum.photos/200"
-                                style={{ msGridRow: 1, msGridColumn: 2 } as React.CSSProperties}
-                            />
-                            <Image
-                                key="three"
-                                fluid
-                                src="https://picsum.photos/200"
-                                style={{ msGridRow: 1, msGridColumn: 3 } as React.CSSProperties}
-                            />
-                        </Grid>
+                            </div> } */}
 
                             <div>
                                 <Button onClick={() => alert("clicked")}>Click this button</Button>
