@@ -2,6 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Button, Header, Loader, Card, CardHeader, CardBody, Avatar } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
+import { Json } from "enzyme-to-json";
 /**
  * State for the chatTabTab React component
  */
@@ -18,12 +19,6 @@ type GUID = string & { isGuid: true};
 function guid(guid: string) : GUID {
     return  guid as GUID; // maybe add validation that the parameter is an actual guid ?
 }
-
-// export default class FetchSensorData extends React.Component {
-//     state = {
-//         loading: true
-//     }
-// }
 
 /**
  * Properties for the chatTabTab React component
@@ -71,29 +66,13 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
         const data = await response.json();
         this.setState({ 
             machineId: data.machineId, 
-            time: data.time, 
+            time: data.time, //Timestamp format: ISO 8601
             voltage: data.voltage, 
             temperature: data.temperature, 
             light: data.light,
-            loading: false 
+            loading: false, 
         });
     }
-
-    // -------------different method to fetch the JSON data-------------
-    // componentDidMount(){
-    //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/";
-    //     const proxy = "https://cors-anywhere.herokuapp.com/";
-    //     fetch(proxy + url)
-    //     .then( response => response.json())
-    //     .then(
-    //         // handle the result
-    //         (result) => {
-    //             this.setState({
-    //                 sensor : result
-    //             });
-    //         }
-    //     )
-    // }
 
 
     /**
@@ -105,7 +84,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                     padding: ".8rem 0 .8rem .5rem"
                 }}>
                     <Flex.Item>
-                        <Header content="This is your tab" />
+                        <Header content="Contextere MS Teams App" />
                     </Flex.Item>
                     <Flex.Item>
                         <div>
@@ -114,15 +93,14 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 <Text content={this.state.entityId} />
                             </div>
 
-
-                            <Card>
+                            <Card fluid>
                                 <CardHeader>
                                     <Flex gap="gap.small">
                                         <Avatar
                                             image="../assets/agent_avatar.png"
                                             label="Intelligent Agent"
                                             name="Contextere"
-                                            status="online"
+                                            status="success"
                                         />
                                         <Flex column>
                                             <Text content="Contextere" weight="bold" />
@@ -134,14 +112,13 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     {this.state.loading || !this.state.voltage ? 
                                         <Loader label="Fetching voltage data..."/> 
                                         : 
-                                        <Text content={this.state.voltage + " volts"} />
+                                        <Text align="center" content={this.state.voltage + " volts"} />
                                     }
-                                    <Text content={this.state.time} />
                                 </CardBody>
                             </Card>
 
                             <div>
-                                <Button onClick={() => alert("clicked")}>Click this button</Button>
+
                             </div>
                         </div>
                     </Flex.Item>
