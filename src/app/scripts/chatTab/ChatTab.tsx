@@ -86,7 +86,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                     padding: ".8rem 0 .8rem .5rem"
                 }}>
                     <Flex.Item>
-                        <Header content="Contextere MS Teams App" />
+                        <Header content="Contextere sensor data extractor" />
                     </Flex.Item>
                     <Flex.Item>
                         <div>
@@ -95,7 +95,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 <Text content={this.state.entityId} />
                             </div>
 
-                            <Card fluid>
+                            <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
                                         <Avatar
@@ -125,7 +125,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 </CardBody>
                             </Card>
 
-                            <Card fluid>
+                            <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
                                         <Avatar
@@ -155,7 +155,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                 </CardBody>
                             </Card>
 
-                            <Card fluid>
+                            <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
                                         <Avatar
@@ -179,7 +179,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             <br/>
                                             <Text timestamp content={humanTime.toLocaleTimeString()} />
                                             <Divider />
-                                            <Text truncated size="larger" weight="semibold" content={this.state.machineId} />
+                                            <Text size="medium" weight="semibold" content={this.state.machineId} />
                                         </div>
                                     }
                                 </CardBody>
