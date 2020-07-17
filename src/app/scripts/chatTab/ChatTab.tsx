@@ -4,6 +4,7 @@ import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base
 import * as microsoftTeams from "@microsoft/teams-js";
 import { Divider } from "@fluentui/react-northstar/dist/es/components/Divider/Divider";
 import { VictoryBar, VictoryChart, VictoryAxis } from "victory";
+import { Json } from "enzyme-to-json";
 /**
  * State for the chatTabTab React component
  */
@@ -15,6 +16,7 @@ export interface IChatTabState extends ITeamsBaseComponentState {
     voltage: number;
     temperature: number;
     light: number;
+    sensor: any;
 }
 type GUID = string & { isGuid: true};
 
@@ -69,6 +71,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
             temperature: data.temperature, 
             light: data.light,
             loading: false, 
+            sensor: data
         });
     }
 
@@ -78,6 +81,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
      */
     public render() {
         const humanTime = new Date(this.state.time);
+        console.log(this.state.sensor);
         return (<Provider theme={this.state.theme}>
                 <Flex fill={true} column styles={{
                     padding: ".8rem 0 .8rem .5rem"
@@ -212,6 +216,64 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             <VictoryBar
                                                 style={{data: {fill: "tomato"}}}
                                                 data={[
+                                                    {sensor: "Temp", value: this.state.temperature},
+                                                    {sensor: "Voltage", value: this.state.voltage}
+                                                ]}
+                                                x="sensor"
+                                                y="value"
+                                                animate={{
+                                                    duration: 200,
+                                                    onLoad: {duration: 200}
+                                                  }}                                            
+                                            />
+                                            <VictoryAxis
+                                                label="Sensors"
+                                                style={{
+                                                    axisLabel: { padding: 30 }
+                                                }}
+                                            />
+                                            <VictoryAxis dependentAxis
+                                                label="Values"
+                                                style={{
+                                                    axisLabel: { padding: 40 }
+                                                }}
+                                            />
+                                            </VictoryChart>
+                                        </div>
+                                    }
+                                </CardBody>
+                            </Card>
+
+                            <Card>
+                                <CardHeader>
+                                    <Flex gap="gap.small">
+                                        <Avatar
+                                            image="../assets/agent_avatar.png"
+                                            label="Intelligent Agent"
+                                            name="Contextere"
+                                            status="success"
+                                        />
+                                        <Flex column>
+                                            <Text content="Contextere" weight="bold" />
+                                            <Text content="Intelligent Agent" size="small" />
+                                        </Flex>
+                                    </Flex>
+                                </CardHeader>
+                                <CardBody>
+                                    {this.state.loading || !this.state.machineId ? 
+                                        <Loader label="Generating chart"/> 
+                                        : 
+                                        <div>
+                                            <Text size="medium" weight="bold" content="Sample chart" /> 
+                                            <br/>
+                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                            <Divider />
+                                            <VictoryChart
+                                                domainPadding={{x: 40}}
+                                            >
+                                            <VictoryBar
+                                                style={{data: {fill: "tomato"}}}
+                                                data={[
                                                     {sensor: "Light", value: 22},
                                                     {sensor: "Temp", value: 38},
                                                     {sensor: "RPM", value: 13},
@@ -242,6 +304,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
+                            
                         </div>
                     </Flex.Item>
                     <Flex.Item styles={{
