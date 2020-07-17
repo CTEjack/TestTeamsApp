@@ -20,6 +20,9 @@ export interface IChatTabState extends ITeamsBaseComponentState {
     intervalId?
 }
 type GUID = string & { isGuid: true};
+function guid(guid: string) : GUID {
+    return  guid as GUID; // maybe add validation that the parameter is an actual guid ?
+}
 
 /**
  * Properties for the chatTabTab React component
