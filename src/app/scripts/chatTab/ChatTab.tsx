@@ -59,9 +59,9 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
     //  JACK: attempting to fetch api data and display it in the console
     // Tutorial:   https://www.youtube.com/watch?time_continue=76&v=T3Px88x_PsA&feature=emb_logo
     // I needed to add a proxy URL to get around a CORS fetch error. Append this to the front of a URL to get around the error https://cors-anywhere.herokuapp.com/
-    // Current Sensor Data API: https://contexterebotapp.azurewebsites.net/api/sensordata/ 
-    // Historical Sensor Data API: https://contexterebotapp.azurewebsites.net/api/sensordata/historical 
-    
+    // Current Sensor Data API: https://contexterebotapp.azurewebsites.net/api/sensordata/
+    // Historical Sensor Data API: https://contexterebotapp.azurewebsites.net/api/sensordata/historical
+
     public async componentDidMount() {
         const intervalId = setInterval(() => this.loadData(), 1000);
         this.loadData(); // also load one immediately
@@ -70,19 +70,19 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
     public async componentWillUnmount() {
         clearInterval();
     }
-    
+
     public async loadData() {
         const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/";
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
         const data = await response.json();
-        this.setState({ 
-            machineId: data.machineId, 
-            time: data.time, //Timestamp format: ISO 8601
-            voltage: data.voltage, 
-            temperature: data.temperature, 
+        this.setState({
+            machineId: data.machineId,
+            time: data.time, // Timestamp format: ISO 8601
+            voltage: data.voltage,
+            temperature: data.temperature,
             light: data.light,
-            loading: false, 
+            loading: false,
             sensor: data
         });
     }
@@ -222,6 +222,8 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             <Divider />
                                             <VictoryChart
                                                 domainPadding={{x: 40}}
+                                                width={250}
+                                                height={300}
                                             >
                                             <VictoryBar
                                                 style={{data: {fill: "tomato"}}}
@@ -244,6 +246,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             />
                                             <VictoryAxis dependentAxis
                                                 label="Values"
+                                                domain={[0, 300]}
                                                 style={{
                                                     axisLabel: { padding: 40 }
                                                 }}
