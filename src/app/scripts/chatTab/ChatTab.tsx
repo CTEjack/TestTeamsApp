@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Header, Loader, Card, CardHeader, CardBody, Avata
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import { Divider } from "@fluentui/react-northstar/dist/es/components/Divider/Divider";
-import { VictoryBar, VictoryChart, VictoryAxis } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
 import { Json } from "enzyme-to-json";
 /**
  * State for the chatTabTab React component
@@ -64,7 +64,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
 
     public async componentDidMount() {
         const intervalId = setInterval(() => this.loadData(), 1000);
-        this.loadData(); // also load one immediately
+        this.loadData(); // Load one immediately
     }
 
     public async componentWillUnmount() {
@@ -224,9 +224,10 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                                 domainPadding={{x: 40}}
                                                 width={250}
                                                 height={300}
+                                                theme={VictoryTheme.material}
                                             >
                                             <VictoryBar
-                                                style={{data: {fill: "tomato"}}}
+                                                style={{data: {fill: "tomato", width: 50}}}
                                                 data={[
                                                     {sensor: "Temp", value: this.state.temperature},
                                                     {sensor: "Voltage", value: this.state.voltage}
@@ -246,7 +247,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             />
                                             <VictoryAxis dependentAxis
                                                 label="Values"
-                                                domain={[0, 300]}
+                                                domain={[0, 250]}
                                                 style={{
                                                     axisLabel: { padding: 40 }
                                                 }}
@@ -256,67 +257,6 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
-
-                            {/* <Card>
-                                <CardHeader>
-                                    <Flex gap="gap.small">
-                                        <Avatar
-                                            image="../assets/agent_avatar.png"
-                                            label="Intelligent Agent"
-                                            name="Contextere"
-                                            status="success"
-                                        />
-                                        <Flex column>
-                                            <Text content="Contextere" weight="bold" />
-                                            <Text content="Intelligent Agent" size="small" />
-                                        </Flex>
-                                    </Flex>
-                                </CardHeader>
-                                <CardBody>
-                                    {this.state.loading || !this.state.machineId ? 
-                                        <Loader label="Generating chart"/> 
-                                        : 
-                                        <div>
-                                            <Text size="medium" weight="bold" content="Sample chart" /> 
-                                            <br/>
-                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                            <Divider />
-                                            <VictoryChart
-                                                domainPadding={{x: 40}}
-                                            >
-                                            <VictoryBar
-                                                style={{data: {fill: "tomato"}}}
-                                                data={[
-                                                    {sensor: "Light", value: 22},
-                                                    {sensor: "Temp", value: 38},
-                                                    {sensor: "RPM", value: 13},
-                                                    {sensor: "Voltage", value: 50},
-                                                    {sensor: "kPa", value: 29},
-                                                ]}
-                                                x="sensor"
-                                                y="value"
-                                                animate={{
-                                                    duration: 200,
-                                                    onLoad: {duration: 200}
-                                                  }}                                            
-                                            />
-                                            <VictoryAxis
-                                                label="Sensors"
-                                                style={{
-                                                    axisLabel: { padding: 30 }
-                                                }}
-                                            />
-                                            <VictoryAxis dependentAxis
-                                                label="Values"
-                                                style={{
-                                                    axisLabel: { padding: 40 }
-                                                }}
-                                            />
-                                            </VictoryChart>
-                                        </div>
-                                    }
-                                </CardBody>
-                            </Card> */}
                             
                         </div>
                     </Flex.Item>
