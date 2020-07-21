@@ -96,19 +96,23 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
     public render() {
         const humanTime = new Date(this.state.time);
         return (<Provider theme={this.state.theme}>
-                <Flex fill={true} column styles={{
-                    padding: ".8rem 0 .8rem .5rem"
-                }}>
+                <Flex 
+                    fill={true} 
+                    column 
+                    gap="gap.small"
+                    styles={{
+                        padding: ".8rem 0 .8rem .5rem"}}>
                     <Flex.Item>
                         <Header content="Contextere sensor data extractor" />
                     </Flex.Item>
+
                     <Flex.Item>
                         <div>
+                            <Text content={this.state.entityId} />
+                        </div>
+                    </Flex.Item>
 
-                            <div>
-                                <Text content={this.state.entityId} />
-                            </div>
-
+                    <Flex.Item>
                             <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
@@ -138,7 +142,9 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
+                        </Flex.Item>
 
+                        <Flex.Item>
                             <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
@@ -168,7 +174,9 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
+                        </Flex.Item>
 
+                        <Flex.Item>
                             <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
@@ -198,7 +206,9 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
-
+                        </Flex.Item>
+                        
+                        <Flex.Item>
                             <Card>
                                 <CardHeader>
                                     <Flex gap="gap.small">
@@ -260,9 +270,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                     }
                                 </CardBody>
                             </Card>
-                            
-                        </div>
-                    </Flex.Item>
+                        </Flex.Item>
                     <Flex.Item styles={{
                         padding: ".8rem 0 .8rem .5rem"
                     }}>
