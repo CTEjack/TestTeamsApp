@@ -252,7 +252,11 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                                     onLoad: {duration: 200}
                                                   }}                                            
                                             />
-                                            <VictoryAxis
+                                            <VictoryAxis />
+                                            <VictoryAxis dependentAxis
+                                                domain={[0, 250]}
+                                            />
+                                            {/* <VictoryAxis
                                                 label="Sensors"
                                                 style={{
                                                     axisLabel: { padding: 30 }
@@ -264,7 +268,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                                 style={{
                                                     axisLabel: { padding: 40 }
                                                 }}
-                                            />
+                                            /> */}
                                             </VictoryChart>
                                         </div>
                                     }
