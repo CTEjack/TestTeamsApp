@@ -16,7 +16,6 @@ export interface IChatTabState extends ITeamsBaseComponentState {
     voltage: number;
     temperature: number;
     light: number;
-    sensor: any;
     intervalId?
 }
 type GUID = string & { isGuid: true};
@@ -66,7 +65,7 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
     // Historical Sensor Data API: https://contexterebotapp.azurewebsites.net/api/sensordata/historical
 
     public async componentDidMount() {
-        const intervalId = setInterval(() => this.loadData(), 1000);
+        const intervalId = setInterval(() => this.loadData(), 10000);
         this.loadData(); // Load one immediately
     }
 
@@ -86,7 +85,6 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
             temperature: data.temperature,
             light: data.light,
             loading: false,
-            sensor: data
         });
     }
 
@@ -256,25 +254,13 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                                             <VictoryAxis dependentAxis
                                                 domain={[0, 250]}
                                             />
-                                            {/* <VictoryAxis
-                                                label="Sensors"
-                                                style={{
-                                                    axisLabel: { padding: 30 }
-                                                }}
-                                            />
-                                            <VictoryAxis dependentAxis
-                                                label="Values"
-                                                domain={[0, 250]}
-                                                style={{
-                                                    axisLabel: { padding: 40 }
-                                                }}
-                                            /> */}
                                             </VictoryChart>
                                         </div>
                                     }
                                 </CardBody>
                             </Card>
                         </Flex.Item>
+
                     <Flex.Item styles={{
                         padding: ".8rem 0 .8rem .5rem"
                     }}>
