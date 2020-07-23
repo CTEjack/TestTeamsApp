@@ -2,6 +2,7 @@ import * as React from "react";
 import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loader, Divider, Grid, Segment } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
+import "../styles/styles.css";
 
 export interface IDigitalWorkPackageState extends ITeamsBaseComponentState {
     entityId?: string;
@@ -76,24 +77,32 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
         <Provider theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
             <Grid styles={{
-                gridTemplateColumns: 'repeat(12, 1fr)',
+                gridTemplateColumns: 'repeat(6, 1fr)',
                 gridTemplateRows: 'repeat(4, 1fr)',
-                msGridColumns: 'repeat(12, 1fr)',
+                msGridColumns: 'repeat(6, 1fr)',
                 msGridRows: 'repeat(4, 1fr)'
             }}>
-                <Segment content="1" color="red" inverted/>
-                <Segment content="2" color="red" inverted/>
-                <Segment content="3" color="red" inverted/>
-                <Segment content="4" color="red" inverted/>
-                <Segment content="5" color="red" inverted/>
-                <Segment content="6" color="red" inverted/>
-                <Segment content="7" color="red" inverted/>
-                <Segment content="8" color="red" inverted/>
-                <Segment content="9" color="red" inverted/>
-                <Segment content="10" color="red" inverted/>
-                <Segment content="11" color="red" inverted/>
-                <Segment content="12" color="red" inverted/>
-                <Segment content="13" color="red" inverted/>
+
+                <Card className="cardy">
+                    <CardHeader>
+                        <Flex gap="gap.small">
+                            <Avatar
+                                image="../assets/agent_avatar.png"
+                                label="Intelligent Agent"
+                                name="Contextere"
+                                status="success"
+                            />
+                            <Flex column>
+                                <Text content="Contextere" weight="bold" />
+                                <Text content="Intelligent Agent" size="small" />
+                            </Flex>
+                        </Flex>
+                    </CardHeader>
+                    <CardBody>
+                        <Text size="medium" weight="bold" content="Current voltage" />
+                    </CardBody>
+                </Card>
+                
 
             </Grid>
         </Provider>

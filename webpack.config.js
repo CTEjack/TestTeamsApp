@@ -82,7 +82,14 @@ var config = [{
                     loader: "ts-loader",
                     options: {
                         configFile: "tsconfig-client.json"
-                    }
+                    },
+                },
+                {
+                    test: /\.css$/,
+                    use: [
+                      'style-loader',
+                      'css-loader'
+                    ]
                 },
                 {
                     test: /\.(eot|svg|ttf|woff|woff2)$/,
