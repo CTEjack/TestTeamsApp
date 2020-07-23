@@ -3,16 +3,15 @@ import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loade
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
+import data from "../data/sampleData.js";
+import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
+
+
 
 export interface IDigitalWorkPackageState extends ITeamsBaseComponentState {
     entityId?: string;
-    loading: boolean;
-    machineId: GUID;
-    time: Date;
-    voltage: number[];
-    temperature: number;
-    light: number;
-    sensors
+    
+
 }
 
 
@@ -56,21 +55,22 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
 
     }
 
-    public async componentDidMount() {
-        const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
-        const proxy = "https://cors-anywhere.herokuapp.com/";
-        const response = await fetch(proxy + url);
-        const data = await response.json();
-        this.setState({
-            machineId: data.machineId,
-            time: data.time, // Timestamp format: ISO 8601
-            voltage: data.voltage,
-            temperature: data.temperature,
-            light: data.light,
-            loading: false,
-            sensors: data
-        });
-    }
+    // public async componentDidMount() {
+    //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
+    //     const proxy = "https://cors-anywhere.herokuapp.com/";
+    //     const response = await fetch(proxy + url);
+    //     const data = await response.json();
+    //     this.setState({
+    //         machineId: data.machineId,
+    //         time: data.time, // Timestamp format: ISO 8601
+    //         voltage: data.voltage,
+    //         temperature: data.temperature,
+    //         light: data.light,
+    //         loading: false,
+    //         sensors: data
+    //     });
+    // }
+
 
     public render() {
         return (
@@ -101,10 +101,19 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     <CardBody>
                         <Text size="medium" weight="bold" content="Current voltage" />
                     </CardBody>
-                </Card>
-                
+                </Card>                
 
             </Grid>
+            <VictoryChart
+                theme={VictoryTheme.material}
+                domain={{ x: [0, 5], y: [0, 7] }}
+                >
+                <VictoryScatter
+                    style={{ data: { fill: "#c43a31" } }}
+                    size={8}
+                    data={data}
+                />
+                </VictoryChart>
         </Provider>
         );
     }// end render
