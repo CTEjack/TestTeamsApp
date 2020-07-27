@@ -8,9 +8,10 @@ import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
 
 
 
-export interface IDigitalWorkPackageState extends Array<ITeamsBaseComponentState> {
+export interface IDigitalWorkPackageState extends ITeamsBaseComponentState {
     entityId?: string;
     loading: boolean;
+    sensors: Array<this>;
 
 }
 
@@ -57,12 +58,14 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
 
     }
 
-        public async componentDidMount() {
+    public async componentDidMount() {
         const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
         const data = await response.json();
-        this.setState({sensor: data});
+        this.setState({
+            sensors: data
+        });
     }
 
     // public async componentDidMount() {
@@ -88,6 +91,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
 
 
     public render() {
+        console.log(this.state.sensors);
         return (
         <Provider theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
@@ -116,10 +120,16 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     <CardBody>
                         <Text size="medium" weight="bold" content="Current voltage" />
                     </CardBody>
-                </Card>                
+                </Card>  
+
+                
+                <div>
+                    {this.state.sensors.map((sensor, index) => (
+                    <div>{sensor.voltage}</div>))}
+                </div>              
 
             </Grid>
-            <VictoryChart
+            {/* <VictoryChart
                 theme={VictoryTheme.material}
                 domain={{ x: [0, 5], y: [0, 7] }}
                 >
@@ -128,7 +138,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     size={8}
                     data={data}
                 />
-                </VictoryChart>
+                </VictoryChart> */}
         </Provider>
         );
     }// end render
