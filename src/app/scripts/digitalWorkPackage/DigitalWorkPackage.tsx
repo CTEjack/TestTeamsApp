@@ -8,11 +8,13 @@ import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
 
 
 
-export interface IDigitalWorkPackageState extends ITeamsBaseComponentState {
+export interface IDigitalWorkPackageState extends Array<ITeamsBaseComponentState> {
     entityId?: string;
-    
+    loading: boolean;
 
 }
+
+//export interface IChatTabStates extends Array<IChatTabState> {}
 
 
 type GUID = string & { isGuid: true};
@@ -55,6 +57,14 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
 
     }
 
+        public async componentDidMount() {
+        const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
+        const proxy = "https://cors-anywhere.herokuapp.com/";
+        const response = await fetch(proxy + url);
+        const data = await response.json();
+        this.setState({sensor: data});
+    }
+
     // public async componentDidMount() {
     //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
     //     const proxy = "https://cors-anywhere.herokuapp.com/";
@@ -70,6 +80,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
     //         sensors: data
     //     });
     // }
+
+    //  const list = await response.json();
+ 
+    // this.setState({ list });
+    // };
 
 
     public render() {
