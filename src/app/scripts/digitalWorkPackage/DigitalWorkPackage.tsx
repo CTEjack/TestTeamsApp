@@ -125,7 +125,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                 
                 <div>
                     {this.state.sensors.map((sensor, index) => (
-                    <div>{sensor.voltage}</div>))}
+                    <div key={index}>{sensor}</div>))}
                 </div>              
 
             </Grid>
