@@ -5,17 +5,14 @@ import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
 import data from "../data/sampleData.js";
 import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
-
+import { IChatTabState } from "../chatTab/ChatTab";
 
 
 export interface IDigitalWorkPackageState extends ITeamsBaseComponentState {
     entityId?: string;
-    loading: boolean;
-    sensors: Array<this>;
-
+    history: IChatTabState[]
 }
 
-//export interface IChatTabStates extends Array<IChatTabState> {}
 
 
 type GUID = string & { isGuid: true};
@@ -46,7 +43,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
             microsoftTeams.getContext((context) => {
                 microsoftTeams.appInitialization.notifySuccess();
                 this.setState({
-                    entityId: context.entityId
+                    entityId: "test"
                 });
                 this.updateTheme(context.theme);
             });
@@ -63,35 +60,13 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
         const data = await response.json();
-        this.setState({
-            sensors: data
-        });
+        this.setState({history:data});
+
     }
-
-    // public async componentDidMount() {
-    //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
-    //     const proxy = "https://cors-anywhere.herokuapp.com/";
-    //     const response = await fetch(proxy + url);
-    //     const data = await response.json();
-    //     this.setState({
-    //         machineId: data.machineId,
-    //         time: data.time, // Timestamp format: ISO 8601
-    //         voltage: data.voltage,
-    //         temperature: data.temperature,
-    //         light: data.light,
-    //         loading: false,
-    //         sensors: data
-    //     });
-    // }
-
-    //  const list = await response.json();
- 
-    // this.setState({ list });
-    // };
 
 
     public render() {
-        console.log(this.state.sensors);
+
         return (
         <Provider theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
@@ -120,16 +95,15 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     <CardBody>
                         <Text size="medium" weight="bold" content="Current voltage" />
                     </CardBody>
-                </Card>  
+                </Card> 
 
-                
-                <div>
-                    {this.state.sensors.map((sensor, index) => (
-                    <div key={index}>{sensor}</div>))}
-                </div>              
+                {/* <div>
+                    {this.state.history.map((sensor, index) => (
+                    <div key={index}>{sensor.voltage}</div>))}
+                </div>                 */}
 
             </Grid>
-            {/* <VictoryChart
+            <VictoryChart
                 theme={VictoryTheme.material}
                 domain={{ x: [0, 5], y: [0, 7] }}
                 >
@@ -138,7 +112,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     size={8}
                     data={data}
                 />
-                </VictoryChart> */}
+                </VictoryChart>
         </Provider>
         );
     }// end render
