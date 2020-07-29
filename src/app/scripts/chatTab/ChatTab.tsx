@@ -111,155 +111,155 @@ export class ChatTab extends TeamsBaseComponent<IChatTabProps, IChatTabState> {
                     </Flex.Item>
 
                     <Flex.Item>
-                            <Card>
-                                <CardHeader>
-                                    <Flex gap="gap.small">
-                                        <Avatar
-                                            image="../assets/agent_avatar.png"
-                                            label="Intelligent Agent"
-                                            name="Contextere"
-                                            status="success"
-                                        />
-                                        <Flex column>
-                                            <Text content="Contextere" weight="bold" />
-                                            <Text content="Intelligent Agent" size="small" />
-                                        </Flex>
+                        <Card>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Avatar
+                                        image="../assets/agent_avatar.png"
+                                        label="Intelligent Agent"
+                                        name="Contextere"
+                                        status="success"
+                                    />
+                                    <Flex column>
+                                        <Text content="Contextere" weight="bold" />
+                                        <Text content="Intelligent Agent" size="small" />
                                     </Flex>
-                                </CardHeader>
-                                <CardBody>
-                                    {this.state.loading || !this.state.voltage ? 
-                                        <Loader label="Fetching voltage data..."/> 
-                                        : 
-                                        <div>
-                                            <Text size="medium" weight="bold" content="Current voltage" /> 
-                                            <br/>
-                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                            <Divider />
-                                            <Text size="larger" weight="semibold" content={this.state.voltage + " volts"} />
-                                        </div>
-                                    }
-                                </CardBody>
-                            </Card>
-                        </Flex.Item>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.voltage ? 
+                                    <Loader label="Fetching voltage data..."/> 
+                                    : 
+                                    <div>
+                                        <Text size="medium" weight="bold" content="Current voltage" /> 
+                                        <br/>
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                        <Divider />
+                                        <Text size="larger" weight="semibold" content={this.state.voltage + " volts"} />
+                                    </div>
+                                }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
 
-                        <Flex.Item>
-                            <Card>
-                                <CardHeader>
-                                    <Flex gap="gap.small">
-                                        <Avatar
-                                            image="../assets/agent_avatar.png"
-                                            label="Intelligent Agent"
-                                            name="Contextere"
-                                            status="success"
-                                        />
-                                        <Flex column>
-                                            <Text content="Contextere" weight="bold" />
-                                            <Text content="Intelligent Agent" size="small" />
-                                        </Flex>
+                    <Flex.Item>
+                        <Card>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Avatar
+                                        image="../assets/agent_avatar.png"
+                                        label="Intelligent Agent"
+                                        name="Contextere"
+                                        status="success"
+                                    />
+                                    <Flex column>
+                                        <Text content="Contextere" weight="bold" />
+                                        <Text content="Intelligent Agent" size="small" />
                                     </Flex>
-                                </CardHeader>
-                                <CardBody>
-                                    {this.state.loading || !this.state.temperature ? 
-                                        <Loader label="Fetching temperature data..."/> 
-                                        : 
-                                        <div>
-                                            <Text size="medium" weight="bold" content="Current internal temperature" /> 
-                                            <br/>
-                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                            <Divider />
-                                            <Text size="larger" weight="semibold" content={this.state.temperature + "\u00B0"+"C"} />
-                                        </div>
-                                    }
-                                </CardBody>
-                            </Card>
-                        </Flex.Item>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.temperature ? 
+                                    <Loader label="Fetching temperature data..."/> 
+                                    : 
+                                    <div>
+                                        <Text size="medium" weight="bold" content="Current internal temperature" /> 
+                                        <br/>
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                        <Divider />
+                                        <Text size="larger" weight="semibold" content={this.state.temperature + "\u00B0"+"C"} />
+                                    </div>
+                                }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
 
-                        <Flex.Item>
-                            <Card>
-                                <CardHeader>
-                                    <Flex gap="gap.small">
-                                        <Avatar
-                                            image="../assets/agent_avatar.png"
-                                            label="Intelligent Agent"
-                                            name="Contextere"
-                                            status="success"
-                                        />
-                                        <Flex column>
-                                            <Text content="Contextere" weight="bold" />
-                                            <Text content="Intelligent Agent" size="small" />
-                                        </Flex>
+                    <Flex.Item>
+                        <Card>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Avatar
+                                        image="../assets/agent_avatar.png"
+                                        label="Intelligent Agent"
+                                        name="Contextere"
+                                        status="success"
+                                    />
+                                    <Flex column>
+                                        <Text content="Contextere" weight="bold" />
+                                        <Text content="Intelligent Agent" size="small" />
                                     </Flex>
-                                </CardHeader>
-                                <CardBody>
-                                    {this.state.loading || !this.state.machineId ? 
-                                        <Loader label="Fetching machine ID..."/> 
-                                        : 
-                                        <div>
-                                            <Text size="medium" weight="bold" content="This machine's identifier" /> 
-                                            <br/>
-                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                            <Divider />
-                                            <Text size="medium" weight="semibold" content={this.state.machineId} />
-                                        </div>
-                                    }
-                                </CardBody>
-                            </Card>
-                        </Flex.Item>
-                        
-                        <Flex.Item>
-                            <Card>
-                                <CardHeader>
-                                    <Flex gap="gap.small">
-                                        <Avatar
-                                            image="../assets/agent_avatar.png"
-                                            label="Intelligent Agent"
-                                            name="Contextere"
-                                            status="success"
-                                        />
-                                        <Flex column>
-                                            <Text content="Contextere" weight="bold" />
-                                            <Text content="Intelligent Agent" size="small" />
-                                        </Flex>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.machineId ? 
+                                    <Loader label="Fetching machine ID..."/> 
+                                    : 
+                                    <div>
+                                        <Text size="medium" weight="bold" content="This machine's identifier" /> 
+                                        <br/>
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                        <Divider />
+                                        <Text size="medium" weight="semibold" content={this.state.machineId} />
+                                    </div>
+                                }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
+                    
+                    <Flex.Item>
+                        <Card>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Avatar
+                                        image="../assets/agent_avatar.png"
+                                        label="Intelligent Agent"
+                                        name="Contextere"
+                                        status="success"
+                                    />
+                                    <Flex column>
+                                        <Text content="Contextere" weight="bold" />
+                                        <Text content="Intelligent Agent" size="small" />
                                     </Flex>
-                                </CardHeader>
-                                <CardBody>
-                                    {this.state.loading || !this.state.machineId ? 
-                                        <Loader label="Generating chart"/> 
-                                        : 
-                                        <div>
-                                            <Text size="medium" weight="bold" content="Sample chart" /> 
-                                            <br/>
-                                            <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                            <Divider />
-                                            <VictoryChart
-                                                domainPadding={{x: 40}}
-                                                width={250}
-                                                height={300}
-                                                theme={VictoryTheme.material}
-                                            >
-                                            <VictoryBar
-                                                style={{data: {fill: "tomato", width: 50}}}
-                                                data={[
-                                                    {sensor: "Temp", value: this.state.temperature},
-                                                    {sensor: "Voltage", value: this.state.voltage}
-                                                ]}
-                                                x="sensor"
-                                                y="value"
-                                                animate={{
-                                                    duration: 200,
-                                                    onLoad: {duration: 200}
-                                                  }}                                            
-                                            />
-                                            <VictoryAxis />
-                                            <VictoryAxis dependentAxis
-                                                domain={[0, 250]}
-                                            />
-                                            </VictoryChart>
-                                        </div>
-                                    }
-                                </CardBody>
-                            </Card>
-                        </Flex.Item>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.machineId ? 
+                                    <Loader label="Generating chart"/> 
+                                    : 
+                                    <div>
+                                        <Text size="medium" weight="bold" content="Sample chart" /> 
+                                        <br/>
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                        <Divider />
+                                        <VictoryChart
+                                            domainPadding={{x: 40}}
+                                            width={250}
+                                            height={300}
+                                            theme={VictoryTheme.material}
+                                        >
+                                        <VictoryBar
+                                            style={{data: {fill: "tomato", width: 50}}}
+                                            data={[
+                                                {sensor: "Temp", value: this.state.temperature},
+                                                {sensor: "Voltage", value: this.state.voltage}
+                                            ]}
+                                            x="sensor"
+                                            y="value"
+                                            animate={{
+                                                duration: 200,
+                                                onLoad: {duration: 200}
+                                                }}                                            
+                                        />
+                                        <VictoryAxis />
+                                        <VictoryAxis dependentAxis
+                                            domain={[0, 250]}
+                                        />
+                                        </VictoryChart>
+                                    </div>
+                                }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
 
                     <Flex.Item styles={{
                         padding: ".8rem 0 .8rem .5rem"
