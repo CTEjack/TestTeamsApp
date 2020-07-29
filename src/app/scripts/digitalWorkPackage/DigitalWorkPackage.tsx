@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loade
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
-import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis } from "victory";
+import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis, VictoryLine } from "victory";
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
@@ -69,6 +69,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
     // }
 
 
+
     public async componentDidMount() {
         const intervalId = setInterval(() => this.loadData(), 3000);
         this.loadData(); // Load one immediately
@@ -93,86 +94,135 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
         });
     }
 
-
     public render() {
         const humanTime = new Date(this.state.time);
-        
-        const sensordata =
+        const TempHistory =
             [
-                { x: 1, y: 2 },
-                { x: 2, y: 3 },
-                { x: 3, y: 5 },
-                { x: 4, y: 4 },
-                { x: 5, y: 7 }
+                { x: 0, y: 87 },
+                { x: 1, y: 23 },
+                { x: 2, y: 77 },
+                { x: 3, y: 51 },
+                { x: 4, y: 17 },
+                { x: 5, y: 98 },
+                { x: 6, y: 34 },
+                { x: 7, y: 72 },
+                { x: 8, y: 43 },
+                { x: 9, y: 60 },
+                { x: 10, y: 67 },
             ]
 
         return (
         <Provider theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
-            <Grid styles={{
-                gridTemplateColumns: 'repeat(6, 1fr)',
-                gridTemplateRows: 'repeat(4, 1fr)',
-                msGridColumns: 'repeat(6, 1fr)',
-                msGridRows: 'repeat(4, 1fr)'
-            }}>
-
-                {/*::: Temperature Card :::*/}
-                <Card>
-                    <CardHeader>
-                        <Flex gap="gap.small">
-                            <Flex column>
-                                <Text size="medium" weight="bold" content="Current internal temperature" /> 
-                                <br/>
-                                {this.state.loading || !this.state.time ? 
-                                    <Text disabled size="small" content="Fetching timestamp..." />
-                                    : 
-                                    <Text timestamp content={humanTime.toLocaleTimeString()} />
-                                }
-                                <Divider />
-                            </Flex>
-                        </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        {this.state.loading || !this.state.temperature ? 
-                            <Loader label="Fetching temperature data..."/> 
-                            : 
-                            <div> 
-                                <VictoryChart
-                                    width={400}
-                                    height={400}
-                                    animate={{
-                                        duration: 500,
-                                        onLoad: {duration: 500}
-                                    }}>
-                                    <VictoryAxis style={{axis: {stroke: "none"} }} />
-                                    <VictoryPie
-                                        data={[
-                                            {x: " ", y: this.state.temperature },
-                                            {x: " ", y: (Math.floor(100 - this.state.temperature))}
-                                        ]} 
-                                        colorScale={["tomato", "white"]}
-                                        innerRadius={100} labelRadius={200}
-                                        cornerRadius={({ datum }) => datum.y = 5}
-                                    />
-                                    <VictoryLabel
-                                        textAnchor="middle" 
-                                        verticalAnchor="middle"
-                                        x={200} y={200} 
-                                        text={this.state.temperature + "\u00B0"+"C"}
-                                        style={{ fontSize: 55 }}/>
-                                </VictoryChart>
-                            </div>
-                        }
-                    </CardBody>
-                </Card> 
+            <Flex 
+                fill={true}  
+                gap="gap.small"
+                styles={{
+                    padding: ".8rem 0 .8rem .5rem"}}>
                 
+                {/*::: Current Temperature Card :::*/}
+                <Flex.Item>
+                    <Card>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Current internal temperature" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.time ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    }
+                                    <Divider />
+                                </Flex>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading || !this.state.temperature ? 
+                                    <Loader label="Fetching temperature data..."/> 
+                                    : 
+                                    <div> 
+                                        <VictoryChart
+                                            width={400}
+                                            height={400}
+                                            animate={{
+                                                duration: 500,
+                                                onLoad: {duration: 500}
+                                            }}>
+                                            <VictoryAxis style={{axis: {stroke: "none"} }} />
+                                            <VictoryPie
+                                                data={[
+                                                    {x: " ", y: this.state.temperature },
+                                                    {x: " ", y: (Math.floor(100 - this.state.temperature))}
+                                                ]} 
+                                                colorScale={["tomato", "white"]}
+                                                innerRadius={100} labelRadius={200}
+                                                cornerRadius={({ datum }) => datum.y = 5}
+                                            />
+                                            <VictoryLabel
+                                                textAnchor="middle" 
+                                                verticalAnchor="middle"
+                                                x={200} y={200} 
+                                                text={this.state.temperature + "\u00B0"+"C"}
+                                                style={{ fontSize: 55 }}/>
+                                        </VictoryChart>
+                                    </div>
+                                }
+                        </CardBody>
+                    </Card>
+                </Flex.Item> 
 
-                {/* <div>
-                    {this.state.history.map((sensor, index) => (
-                    <div key={index}>{sensor.voltage}</div>))}
-                </div>                 */}
-
-            </Grid>
+                {/*::: Historic Temperature Card :::*/}
+                <Flex.Item>
+                    <Card fluid
+                        styles={{height: 200}}>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Temperature log" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.time ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    }
+                                    <Divider />
+                                </Flex>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading || !this.state.temperature ? 
+                                <Loader label="Fetching temperature history..."/> 
+                                : 
+                                <div> 
+                                    <VictoryChart
+                                        height={60}
+                                        width={400}
+                                        padding={10}
+                                        animate={{
+                                            duration: 500,
+                                            onLoad: {duration: 500}
+                                        }}>
+                                        <VictoryAxis 
+                                            style={{
+                                                axis: {stroke: "none"},
+                                                tickLabels: { fill: "none" } 
+                                                }} />
+                                        <VictoryLine
+                                            data={TempHistory}
+                                            style={{ data: { stroke: "#c43a31" } }}
+                                            padding={10} />
+                                        <VictoryScatter
+                                            data={TempHistory}
+                                            style={{ data: { fill: "#c43a31" } }}
+                                            padding={10} />
+                                    </VictoryChart>
+                                </div>
+                            }
+                        </CardBody>
+                    </Card>
+                </Flex.Item> 
+            </Flex>
         </Provider>
         );
     }// end render
