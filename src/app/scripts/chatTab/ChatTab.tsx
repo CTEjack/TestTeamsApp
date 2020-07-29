@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Header, Loader, Card, CardHeader, CardBody, Avata
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import { Divider } from "@fluentui/react-northstar/dist/es/components/Divider/Divider";
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from "victory";
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie, VictoryContainer } from "victory";
 import { Json } from "enzyme-to-json";
 /**
  * State for the chatTabTab React component

@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loade
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
-import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
+import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis } from "victory";
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
@@ -70,7 +70,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
 
 
     public async componentDidMount() {
-        const intervalId = setInterval(() => this.loadData(), 10000);
+        const intervalId = setInterval(() => this.loadData(), 3000);
         this.loadData(); // Load one immediately
     }
 
@@ -136,17 +136,31 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                         {this.state.loading || !this.state.temperature ? 
                             <Loader label="Fetching temperature data..."/> 
                             : 
-                            <div>
-                                <Text align="center" size="larger" weight="semibold" content={this.state.temperature + "\u00B0"+"C"} />
-                                <VictoryPie
-                                    data={[
-                                        {x: " ", y: this.state.temperature },
-                                        {x: " ", y: (Math.floor(100 - this.state.temperature))}
-                                    ]} 
-                                    colorScale={["tomato", "white"]}
-                                    innerRadius={68} labelRadius={100}
-                                    cornerRadius={({ datum }) => datum.y = 5}
-                                />
+                            <div> 
+                                <VictoryChart
+                                    width={400}
+                                    height={400}
+                                    animate={{
+                                        duration: 500,
+                                        onLoad: {duration: 500}
+                                    }}>
+                                    <VictoryAxis style={{axis: {stroke: "none"} }} />
+                                    <VictoryPie
+                                        data={[
+                                            {x: " ", y: this.state.temperature },
+                                            {x: " ", y: (Math.floor(100 - this.state.temperature))}
+                                        ]} 
+                                        colorScale={["tomato", "white"]}
+                                        innerRadius={100} labelRadius={200}
+                                        cornerRadius={({ datum }) => datum.y = 5}
+                                    />
+                                    <VictoryLabel
+                                        textAnchor="middle" 
+                                        verticalAnchor="middle"
+                                        x={200} y={200} 
+                                        text={this.state.temperature + "\u00B0"+"C"}
+                                        style={{ fontSize: 55 }}/>
+                                </VictoryChart>
                             </div>
                         }
                     </CardBody>
