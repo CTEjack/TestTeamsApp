@@ -3,7 +3,7 @@ import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loade
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
-import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis, VictoryLine } from "victory";
+import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis, VictoryLine, VictoryBar } from "victory";
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
@@ -124,7 +124,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                 styles={{
                     padding: ".8rem 0 .8rem .5rem"}}>
                 
-                {/*::: Current Temperature Card :::*/}
+                {/*::: START Current Temperature Card :::*/}
                 <Flex.Item>
                     <Card>
                         <CardHeader>
@@ -176,7 +176,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     </Card>
                 </Flex.Item> {/*::: END Current Temperature Card :::*/}
 
-                {/*::: Historic Temperature Card :::*/}
+                {/*::: START Historic Temperature Card :::*/}
                 <Flex.Item>
                     <Card fluid>
                         <CardHeader>
@@ -218,11 +218,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                                         }} />
                                         <VictoryLine
                                             data={TempHistory}
-                                            style={{ data: { stroke: "#c43a31" } }}
+                                            style={{ data: { stroke: "tomato" } }}
                                         />
                                         <VictoryScatter
                                             data={TempHistory}
-                                            style={{ data: { fill: "#c43a31" } }}
+                                            style={{ data: { fill: "tomato" } }}
                                         />
                                     </VictoryChart>
                                 </div>
@@ -238,7 +238,59 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                 gap="gap.small"
                 styles={{
                     padding: ".8rem 0 .8rem .5rem"}}>
-
+                
+                {/* START Current Voltage Card */}
+                <Flex.Item>
+                    <Card>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Current voltage" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.time ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    }
+                                    <Divider />
+                                </Flex>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading || !this.state.voltage ? 
+                                <Loader label="Fetching current voltage..."/> 
+                                : 
+                                <div> 
+                                    <VictoryChart
+                                        horizontal
+                                        domainPadding={{x: 60}}
+                                        padding={{ top: 10, bottom: 25, left: 20, right: 10 }}
+                                        width={400}
+                                        height={150}
+                                        theme={VictoryTheme.material}
+                                    >
+                                        <VictoryBar
+                                            style={{data: {fill: "tomato", width: 80}}}
+                                            data={[
+                                                {sensor: " ", value: this.state.voltage},
+                                            ]}
+                                            x="sensor"
+                                            y="value"
+                                            animate={{
+                                                duration: 200,
+                                                onLoad: {duration: 200}
+                                                }}                                            
+                                        />
+                                        <VictoryAxis />
+                                        <VictoryAxis dependentAxis
+                                            domain={[0, 220]}
+                                        />
+                                    </VictoryChart>
+                                </div>
+                            }
+                        </CardBody>
+                    </Card>
+                </Flex.Item>
             </Flex>
         </Provider>
         );
