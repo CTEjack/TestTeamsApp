@@ -117,11 +117,12 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
 
             <Grid
+                // Set row sizes to viewport width - will this break when sideloaded into MS Teams?
                 styles={{
                     gridTemplateColumns: 'repeat(4, 1fr)',
-                    gridTemplateRows: '400px 400px 50px',
+                    gridTemplateRows: '30vw 30vw',
                     msGridColumns: '(1fr)[4]',
-                    msGridRows: '400px 400px 50px',
+                    msGridRows: '30vw 30vw',
                     gridColumnGap: '10px',
                     gridRowGap: '10px'
                 }}>
@@ -193,7 +194,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                     <CardHeader>
                         <Flex gap="gap.small">
                             <Flex column>
-                                <Text size="medium" weight="bold" content="Current internal temperature" /> 
+                                <Text size="medium" weight="bold" content="Current temperature" /> 
                                 <br/>
                                 {this.state.loading || !this.state.time ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
