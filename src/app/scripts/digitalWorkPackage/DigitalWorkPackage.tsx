@@ -98,22 +98,26 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
         const humanTime = new Date(this.state.time);
         const TempHistory =
             [
-                { x: 0, y: 87 },
-                { x: 1, y: 23 },
-                { x: 2, y: 77 },
-                { x: 3, y: 51 },
-                { x: 4, y: 17 },
-                { x: 5, y: 98 },
-                { x: 6, y: 34 },
-                { x: 7, y: 72 },
-                { x: 8, y: 43 },
-                { x: 9, y: 60 },
-                { x: 10, y: 67 },
+                { x: "10:00am", y: 87 },
+                { x: "10:07am", y: 23 },
+                { x: "10:14am", y: 77 },
+                { x: "10:21am", y: 51 },
+                { x: "10:28am", y: 17 },
+                { x: "10:35am", y: 98 },
+                { x: "10:42am", y: 34 },
+                { x: "10:49am", y: 72 },
+                { x: "10:56am", y: 43 },
+                { x: "11:03am", y: 60 },
+                { x: "11:10am", y: 67 },
             ]
 
         return (
-        <Provider theme={this.state.theme}>
+        <Provider 
+            theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
+            
+            
+            {/*START First Row */}
             <Flex 
                 fill={true}  
                 gap="gap.small"
@@ -170,12 +174,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                                 }
                         </CardBody>
                     </Card>
-                </Flex.Item> 
+                </Flex.Item> {/*::: END Current Temperature Card :::*/}
 
                 {/*::: Historic Temperature Card :::*/}
                 <Flex.Item>
-                    <Card fluid
-                        styles={{height: 200}}>
+                    <Card fluid>
                         <CardHeader>
                             <Flex gap="gap.small">
                                 <Flex column>
@@ -191,37 +194,51 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                             </Flex>
                         </CardHeader>
                         <CardBody>
-                            {this.state.loading || !this.state.temperature ? 
+                            {this.state.loading || !this.state.time ? 
                                 <Loader label="Fetching temperature history..."/> 
                                 : 
                                 <div> 
                                     <VictoryChart
-                                        height={60}
+                                        height={100}
                                         width={400}
-                                        padding={10}
+                                        padding={{ top: 10, bottom: 20, left: 20, right: 10 }}
+                                        theme={VictoryTheme.material}
                                         animate={{
                                             duration: 500,
                                             onLoad: {duration: 500}
                                         }}>
                                         <VictoryAxis 
                                             style={{
-                                                axis: {stroke: "none"},
-                                                tickLabels: { fill: "none" } 
-                                                }} />
+                                                tickLabels: { fontSize: 5 } 
+                                        }} />
+                                        <VictoryAxis dependentAxis
+                                            domain={[0, 100]}
+                                            style={{
+                                                tickLabels: { fontSize: 5 } 
+                                        }} />
                                         <VictoryLine
                                             data={TempHistory}
                                             style={{ data: { stroke: "#c43a31" } }}
-                                            padding={10} />
+                                        />
                                         <VictoryScatter
                                             data={TempHistory}
                                             style={{ data: { fill: "#c43a31" } }}
-                                            padding={10} />
+                                        />
                                     </VictoryChart>
                                 </div>
                             }
                         </CardBody>
                     </Card>
-                </Flex.Item> 
+                </Flex.Item> {/*::: END Historic Temperature Card :::*/}
+            </Flex> {/*END First Row */}
+            
+            {/*START Second Row */}
+            <Flex 
+                fill={true}  
+                gap="gap.small"
+                styles={{
+                    padding: ".8rem 0 .8rem .5rem"}}>
+
             </Flex>
         </Provider>
         );
