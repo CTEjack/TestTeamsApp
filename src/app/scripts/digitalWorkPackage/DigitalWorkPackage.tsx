@@ -201,7 +201,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                                     <VictoryChart
                                         height={100}
                                         width={400}
-                                        padding={{ top: 10, bottom: 20, left: 20, right: 10 }}
+                                        padding={{ top: 15, bottom: 20, left: 20, right: 10 }}
                                         theme={VictoryTheme.material}
                                         animate={{
                                             duration: 500,
@@ -222,7 +222,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                                         />
                                         <VictoryScatter
                                             data={TempHistory}
-                                            style={{ data: { fill: "tomato" } }}
+                                            labels={({ datum }) => datum.y}
+                                            style={{ 
+                                                data: { fill: "tomato" },
+                                                labels: { fontSize: 5, fill: "tomato" } 
+                                            }}
                                         />
                                     </VictoryChart>
                                 </div>
@@ -277,8 +281,8 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackagePr
                                             x="sensor"
                                             y="value"
                                             animate={{
-                                                duration: 200,
-                                                onLoad: {duration: 200}
+                                                duration: 500,
+                                                onLoad: {duration: 500}
                                                 }}                                            
                                         />
                                         <VictoryAxis />
