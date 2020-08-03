@@ -7,16 +7,12 @@ import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimatio
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
-export interface IDigitalWorkPackageState {
-    // history: IChatTabState[]
-    entityId?: string;
-    loading: boolean;
-    machineId: GUID;
-    time: Date;
-    voltage: number;
-    temperature: number;
-    light: number;
-    intervalId?
+export class SensorRecord {
+  machineId: string;
+  time: string;
+  voltage: number;
+  temperature: number;
+  light: number;
 }
 
 type GUID = string & { isGuid: true};
@@ -24,19 +20,22 @@ function guid(guid: string) : GUID {
     return  guid as GUID; // maybe add validation that the parameter is an actual guid ?
 }
 
+export interface SensorRecordsProps {
 
+}
 /**
  * Properties for the NewTabTab React component
  */
-export interface IDigitalWorkPackageProps extends ITeamsBaseComponentState {
-    entityId?: string
-    history: IDigitalWorkPackageState[]
+export interface SensorRecords extends ITeamsBaseComponentState  {
+    entityId: string;
+    loading: boolean;
+    records:SensorRecord[];
 }
 
 /**
  * Implementation of the New content page
  */
-export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageState, IDigitalWorkPackageProps> {
+export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, SensorRecords> {
 
 
     public async componentWillMount() {
@@ -49,68 +48,41 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
             microsoftTeams.getContext((context) => {
                 microsoftTeams.appInitialization.notifySuccess();
                 this.setState({
-                    entityId: "test"
+                    entityId: "test",
+                    loading:true
                 });
                 this.updateTheme(context.theme);
             });
         } else {
             this.setState({
-                entityId: "This is not hosted in Microsoft Teams"
+                entityId: "This is not hosted in Microsoft Teams",
+                loading:true
             });
         }
 
     }
 
+
     public async componentDidMount() {
         const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
-        const data = await response.json();
-        this.setState({history:data});
+        const data =  await response.json()
+        try {
+            this.setState({records: data, loading: false})
+        }
+        catch(e) {
+            console.log(e, data)
+        }
+
+       
     }
-
-
-
-    // public async componentDidMount() {
-    //     const intervalId = setInterval(() => this.loadData(), 3000);
-    //     this.loadData(); // Load one immediately
-    // }
 
     public async componentWillUnmount() {
         clearInterval();
     }
 
-    // public async loadData() {
-    //     const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/";
-    //     const proxy = "https://cors-anywhere.herokuapp.com/";
-    //     const response = await fetch(proxy + url);
-    //     const data = await response.json();
-    //     this.setState({
-    //         machineId: data.machineId,
-    //         time: data.time, // Timestamp format: ISO 8601
-    //         voltage: data.voltage,
-    //         temperature: data.temperature,
-    //         light: data.light,
-    //         loading: false,
-    //     });
-    // }
-
     public render() {
-        const humanTime = new Date(this.state.history[0].time);
-        const TempHistory = this.state.history.map((h) => {h.time,h.temperature})
-            // [
-            //     { x: "10:00am", y: 87 },
-            //     { x: "10:07am", y: 23 },
-            //     { x: "10:14am", y: 77 },
-            //     { x: "10:21am", y: 51 },
-            //     { x: "10:28am", y: 17 },
-            //     { x: "10:35am", y: 98 },
-            //     { x: "10:42am", y: 34 },
-            //     { x: "10:49am", y: 72 },
-            //     { x: "10:56am", y: 43 },
-            //     { x: "11:03am", y: 60 },
-            //     { x: "11:10am", y: 67 },
-            // ]
 
         return (
         <Provider 
@@ -139,17 +111,17 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                             <Flex column>
                                 <Text size="medium" weight="bold" content="Current voltage" /> 
                                 <br/>
-                                {this.state[0].loading || !this.state[0].time ? 
+                                {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    <Text timestamp content={this.state.records.map(r => r.time)} />
                                 }
                                 <Divider />
                             </Flex>
                         </Flex>
                     </CardHeader>
                     <CardBody>
-                        {this.state[0].loading || !this.state[0].voltage ? 
+                        {this.state.loading || !this.state.records ? 
                             <Loader label="Fetching current voltage..."/> 
                             : 
                             <div> 
@@ -164,7 +136,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                                     <VictoryBar
                                         style={{data: {fill: "tomato", width: 60}}}
                                         data={[
-                                            {sensor: " ", value: this.state[0].voltage},
+                                            {sensor: " ", value: this.state.records.map(r => r.voltage)},
                                         ]}
                                         x="sensor"
                                         y="value"
@@ -197,17 +169,17 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                             <Flex column>
                                 <Text size="medium" weight="bold" content="Current temperature" /> 
                                 <br/>
-                                {this.state[0].loading || !this.state[0].time ? 
+                                {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    <Text timestamp content={this.state.records.map(r => r.time)} />
                                 }
                                 <Divider />
                             </Flex>
                         </Flex>
                     </CardHeader>
                     <CardBody>
-                        {this.state[0].loading || !this.state[0].temperature ? 
+                        {this.state.loading  || !this.state.records ? 
                                 <Loader label="Fetching temperature data..."/> 
                                 : 
                                 <div> 
@@ -221,8 +193,8 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                                         <VictoryAxis style={{axis: {stroke: "none"} }} />
                                         <VictoryPie
                                             data={[
-                                                {x: " ", y: this.state[0].temperature },
-                                                {x: " ", y: (Math.floor(100 - this.state[0].temperature))}
+                                                {x: " ", y: this.state.records.map( r => r.temperature) },
+                                                {x: " ", y: this.state.records.map( r => r.temperature)}
                                             ]} 
                                             colorScale={["tomato", "white"]}
                                             innerRadius={100} labelRadius={200}
@@ -232,10 +204,10 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                                             textAnchor="middle" 
                                             verticalAnchor="middle"
                                             x={200} y={200} 
-                                            text={this.state[0].temperature + "\u00B0"+"C"}
+                                            text={this.state.records.map( s => s.temperature + "°"+"C") }
                                             style={{ fontSize: 55 }}/>
                                     </VictoryChart>
-                                </div>
+                            -    </div>
                             }
                     </CardBody>
                 </Card>{/*::: END Current Temperature Card :::*/}
@@ -251,17 +223,17 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                             <Flex column>
                                 <Text size="medium" weight="bold" content="Temperature log" /> 
                                 <br/>
-                                {this.state[0].loading || !this.state[0].time ? 
+                                {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={humanTime.toLocaleTimeString()} />
+                                    <Text timestamp content={this.state.records.map(m => m.time)} />
                                 }
                                 <Divider />
                             </Flex>
                         </Flex>
                     </CardHeader>
                     <CardBody>
-                        {this.state[0].loading || !this.state[0].time ? 
+                        {this.state.loading || !this.state.records ? 
                             <Loader label="Fetching temperature history..."/> 
                             : 
                             <div> 
@@ -284,11 +256,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<IDigitalWorkPackageSt
                                             tickLabels: { fontSize: 5 } 
                                     }} />
                                     <VictoryLine
-                                        data={TempHistory}
+                                        data={this.state.records.map(t => t.temperature)}
                                         style={{ data: { stroke: "tomato" } }}
                                     />
                                     <VictoryScatter
-                                        data={TempHistory}
+                                        data={this.state.records.map(t => t.temperature)}
                                         labels={({ datum }) => datum.y}
                                         style={{ 
                                             data: { fill: "tomato" },
