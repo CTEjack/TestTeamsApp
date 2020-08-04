@@ -114,7 +114,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                 {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={this.state.records.map(r => r.time)} />
+                                    <Text timestamp content={this.state.records[0].time} />
                                 }
                                 <Divider />
                             </Flex>
@@ -136,7 +136,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                     <VictoryBar
                                         style={{data: {fill: "tomato", width: 60}}}
                                         data={[
-                                            {sensor: " ", value: this.state.records.map(r => r.voltage)},
+                                            {sensor: " ", value: this.state.records[0].voltage},
                                         ]}
                                         x="sensor"
                                         y="value"
@@ -172,7 +172,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                 {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={this.state.records.map(r => r.time)} />
+                                    <Text timestamp content={this.state.records[0].time} />
                                 }
                                 <Divider />
                             </Flex>
@@ -193,8 +193,8 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                         <VictoryAxis style={{axis: {stroke: "none"} }} />
                                         <VictoryPie
                                             data={[
-                                                {x: " ", y: this.state.records.map( r => r.temperature) },
-                                                {x: " ", y: this.state.records.map( r => r.temperature)}
+                                                {x: " ", y: this.state.records[0].temperature },
+                                                {x: " ", y: 100 - this.state.records[0].temperature}
                                             ]} 
                                             colorScale={["tomato", "white"]}
                                             innerRadius={100} labelRadius={200}
@@ -204,7 +204,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                             textAnchor="middle" 
                                             verticalAnchor="middle"
                                             x={200} y={200} 
-                                            text={this.state.records.map( s => s.temperature + "°"+"C") }
+                                            text={this.state.records[0].temperature + "°C" }
                                             style={{ fontSize: 55 }}/>
                                     </VictoryChart>
                             -    </div>
@@ -226,7 +226,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                 {this.state.loading || !this.state.records ? 
                                     <Text disabled size="small" content="Fetching timestamp..." />
                                     : 
-                                    <Text timestamp content={this.state.records.map(m => m.time)} />
+                                    <Text timestamp content={this.state.records[0].time} />
                                 }
                                 <Divider />
                             </Flex>
@@ -256,11 +256,11 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                             tickLabels: { fontSize: 5 } 
                                     }} />
                                     <VictoryLine
-                                        data={this.state.records.map(t => t.temperature)}
+                                        data={this.state.records.slice(0,8).map(t => t.temperature)}
                                         style={{ data: { stroke: "tomato" } }}
                                     />
                                     <VictoryScatter
-                                        data={this.state.records.map(t => t.temperature)}
+                                        data={this.state.records.slice(0,8).map(t => t.temperature)}
                                         labels={({ datum }) => datum.y}
                                         style={{ 
                                             data: { fill: "tomato" },
