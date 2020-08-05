@@ -264,7 +264,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                     />
                                     <VictoryScatter
                                         data={this.state.records.slice(0,8).map(t => t.temperature)}
-                                        labels={({ datum }) => datum.y}
+                                        labels={this.state.records.slice(0,8).map(t => t.temperature + "°C")}
                                         style={{ 
                                             data: { fill: "tomato" },
                                             labels: { fontSize: 5, fill: "tomato" } 
