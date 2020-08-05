@@ -29,7 +29,7 @@ export interface SensorRecordsProps {
 export interface SensorRecords extends ITeamsBaseComponentState  {
     entityId: string;
     loading: boolean;
-    records:SensorRecord[];
+    records: SensorRecord[];
 }
 
 /**
@@ -64,6 +64,15 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
 
 
     public async componentDidMount() {
+        const intervalId = setInterval(() => this.loadData(), 10000);
+        this.loadData(); // Load one immediately
+    }
+
+    public async componentWillUnmount() {
+        clearInterval();
+    }
+
+    public async loadData() {
         const url = "https://contexterebotapp.azurewebsites.net/api/sensordata/historical";
         const proxy = "https://cors-anywhere.herokuapp.com/";
         const response = await fetch(proxy + url);
@@ -74,12 +83,6 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
         catch(e) {
             console.log(e, data)
         }
-
-       
-    }
-
-    public async componentWillUnmount() {
-        clearInterval();
     }
 
     public render() {
