@@ -9,7 +9,7 @@ import { IChatTabState } from "../chatTab/ChatTab";
 
 export class SensorRecord {
   machineId: string;
-  time: string;
+  time: Date;
   voltage: number;
   temperature: number;
   light: number;
@@ -251,7 +251,9 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                     }}>
                                     <VictoryAxis 
                                         style={{
-                                            tickLabels: { fontSize: 5 } 
+                                            tickLabels: { fontSize: 0},
+                                            ticks: {stroke: "none"}
+
                                     }} />
                                     <VictoryAxis dependentAxis
                                         domain={[0, 100]}
