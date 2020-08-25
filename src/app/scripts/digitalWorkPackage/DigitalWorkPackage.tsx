@@ -93,22 +93,14 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
 
             <Grid
-                // Set row sizes to viewport width - will this break when sideloaded into MS Teams?
-                styles={{
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gridTemplateRows: '30vw 30vw',
-                    msGridColumns: '(1fr)[4]',
-                    msGridRows: '30vw 30vw',
-                    gridColumnGap: '10px',
-                    gridRowGap: '10px'
-                }}>
+                className="CardWrapper"
+                >
                 
                 {/* START Current Voltage Card */}
                 <Card 
+                    className="CardyB"
                     fluid
-                    styles={{
-                        gridColumn: 'span 3',
-                    }}>
+                    >
                     <CardHeader>
                         <Flex gap="gap.small">
                             <Flex column>
@@ -164,9 +156,8 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                 {/*::: START Current Temperature Card :::*/}
                 <Card 
                     fluid
-                    styles={{
-                        gridColumn: 'span 1',
-                    }}>
+                    className="CardyC"
+                    >
                     <CardHeader>
                         <Flex gap="gap.small">
                             <Flex column>
@@ -218,9 +209,8 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                 {/*::: START Historic Temperature Card :::*/}
                 <Card 
                     fluid
-                    styles={{
-                        gridColumn: 'span 4',
-                    }}>
+                    className="CardyD"
+                    >
                     <CardHeader>
                         <Flex gap="gap.small">
                             <Flex column>
