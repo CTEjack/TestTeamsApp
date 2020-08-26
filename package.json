@@ -26,6 +26,7 @@
     "msteams-react-base-component": "^2.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-responsive": "^8.1.0",
     "victory": "^35.0.5"
   },
   "devDependencies": {

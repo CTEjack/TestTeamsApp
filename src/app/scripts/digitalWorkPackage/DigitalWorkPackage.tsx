@@ -4,6 +4,8 @@ import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
 import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis, VictoryLine, VictoryBar } from "victory";
+// import { useMediaQuery } from 'react-responsive';
+import MediaQuery from 'react-responsive';
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
@@ -85,6 +87,15 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
         }
     }
 
+    /* 
+       https://docs.microsoft.com/en-us/windows/uwp/design/layout/screen-sizes-and-breakpoints-for-responsive-design
+       UWP Breakpoints:
+       -- large: 1008px and larger
+       -- medium: 641px to 1007px
+       -- small: smaller than 640px 
+    */ 
+    
+
     public render() {
 
         return (
@@ -92,182 +103,204 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
             theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
 
-            <Grid
-                className="CardWrapper"
-                >
-                
-                {/* START Current Voltage Card */}
-                <Card 
-                    className="CardyB"
-                    fluid
-                    >
-                    <CardHeader>
-                        <Flex gap="gap.small">
-                            <Flex column>
-                                <Text size="medium" weight="bold" content="Current voltage" /> 
-                                <br/>
-                                {this.state.loading || !this.state.records ? 
-                                    <Text disabled size="small" content="Fetching timestamp..." />
-                                    : 
-                                    <Text timestamp content={this.state.records[0].time} />
-                                }
-                                <Divider />
+            <MediaQuery minWidth={1008}>
+                <Text>Appears when larger than 1224px</Text>
+                <Grid
+                    styles={{
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gridTemplateRows: '30vw 30vw',
+                        msGridColumns: '(1fr)[4]',
+                        msGridRows: '30vw 30vw',
+                        gridColumnGap: '10px',
+                        gridRowGap: '10px'
+                    }}>
+                    
+                    {/* START Current Voltage Card */}
+                    <Card 
+                        fluid
+                        styles={{
+                            gridColumn: 'span 3',
+                        }}>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Current voltage" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.records ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={this.state.records[0].time} />
+                                    }
+                                    <Divider />
+                                </Flex>
                             </Flex>
-                        </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        {this.state.loading || !this.state.records ? 
-                            <Loader label="Fetching current voltage..."/> 
-                            : 
-                            <div> 
-                                <VictoryChart
-                                    horizontal
-                                    domainPadding={{x: 60}}
-                                    padding={{ top: 10, bottom: 25, left: 25, right: 15 }}
-                                    width={300}
-                                    height={100}
-                                    theme={VictoryTheme.material}
-                                >
-                                    <VictoryBar
-                                        style={{data: {fill: "tomato", width: 60}}}
-                                        data={[
-                                            {sensor: " ", value: this.state.records[0].voltage},
-                                        ]}
-                                        x="sensor"
-                                        y="value"
-                                        animate={{
-                                            duration: 500,
-                                            onLoad: {duration: 500}
-                                            }}                                            
-                                    />
-                                    <VictoryAxis />
-                                    <VictoryAxis dependentAxis
-                                        domain={[0, 220]}
-                                        style={{
-                                            tickLabels: { fontSize: 5 } 
-                                        }}
-                                    />
-                                </VictoryChart>
-                            </div>
-                        }
-                    </CardBody>
-                </Card>{/* END Current Voltage Card */}
-                
-                {/*::: START Current Temperature Card :::*/}
-                <Card 
-                    fluid
-                    className="CardyC"
-                    >
-                    <CardHeader>
-                        <Flex gap="gap.small">
-                            <Flex column>
-                                <Text size="medium" weight="bold" content="Current temperature" /> 
-                                <br/>
-                                {this.state.loading || !this.state.records ? 
-                                    <Text disabled size="small" content="Fetching timestamp..." />
-                                    : 
-                                    <Text timestamp content={this.state.records[0].time} />
-                                }
-                                <Divider />
-                            </Flex>
-                        </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        {this.state.loading  || !this.state.records ? 
-                                <Loader label="Fetching temperature data..."/> 
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading || !this.state.records ? 
+                                <Loader label="Fetching current voltage..."/> 
                                 : 
                                 <div> 
                                     <VictoryChart
+                                        horizontal
+                                        domainPadding={{x: 60}}
+                                        padding={{ top: 10, bottom: 25, left: 25, right: 15 }}
+                                        width={300}
+                                        height={100}
+                                        theme={VictoryTheme.material}
+                                    >
+                                        <VictoryBar
+                                            style={{data: {fill: "tomato", width: 60}}}
+                                            data={[
+                                                {sensor: " ", value: this.state.records[0].voltage},
+                                            ]}
+                                            x="sensor"
+                                            y="value"
+                                            animate={{
+                                                duration: 500,
+                                                onLoad: {duration: 500}
+                                                }}                                            
+                                        />
+                                        <VictoryAxis />
+                                        <VictoryAxis dependentAxis
+                                            domain={[0, 220]}
+                                            style={{
+                                                tickLabels: { fontSize: 5 } 
+                                            }}
+                                        />
+                                    </VictoryChart>
+                                </div>
+                            }
+                        </CardBody>
+                    </Card>{/* END Current Voltage Card */}
+                    
+                    {/*::: START Current Temperature Card :::*/}
+                    <Card 
+                        fluid
+                        styles={{
+                            gridColumn: 'span 1',
+                        }}>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Current temperature" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.records ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={this.state.records[0].time} />
+                                    }
+                                    <Divider />
+                                </Flex>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading  || !this.state.records ? 
+                                    <Loader label="Fetching temperature data..."/> 
+                                    : 
+                                    <div> 
+                                        <VictoryChart
+                                            width={300}
+                                            height={300}
+                                            animate={{
+                                                duration: 500,
+                                                onLoad: {duration: 500}
+                                            }}>
+                                            <VictoryAxis style={{axis: {stroke: "none"} }} />
+                                            <VictoryPie
+                                                data={[
+                                                    {x: " ", y: this.state.records[0].temperature },
+                                                    {x: " ", y: 100 - this.state.records[0].temperature}
+                                                ]} 
+                                                colorScale={["tomato", "white"]}
+                                                innerRadius={50} labelRadius={100}
+                                                cornerRadius={({ datum }) => datum.y = 5}
+                                            />
+                                            <VictoryLabel
+                                                textAnchor="middle" 
+                                                verticalAnchor="middle"
+                                                x={150} y={150} 
+                                                text={this.state.records[0].temperature + "°C" }
+                                                style={{ fontSize: 25 }}/>
+                                        </VictoryChart>
+                                    </div>
+                                }
+                        </CardBody>
+                    </Card>{/*::: END Current Temperature Card :::*/}
+
+                    {/*::: START Historic Temperature Card :::*/}
+                    <Card 
+                        fluid
+                        styles={{
+                            gridColumn: 'span 4',
+                        }}>
+                        <CardHeader>
+                            <Flex gap="gap.small">
+                                <Flex column>
+                                    <Text size="medium" weight="bold" content="Temperature log" /> 
+                                    <br/>
+                                    {this.state.loading || !this.state.records ? 
+                                        <Text disabled size="small" content="Fetching timestamp..." />
+                                        : 
+                                        <Text timestamp content={this.state.records[0].time} />
+                                    }
+                                    <Divider />
+                                </Flex>
+                            </Flex>
+                        </CardHeader>
+                        <CardBody>
+                            {this.state.loading || !this.state.records ? 
+                                <Loader label="Fetching temperature history..."/> 
+                                : 
+                                <div> 
+                                    <VictoryChart
+                                        height={100}
                                         width={400}
-                                        height={400}
+                                        padding={{ top: 15, bottom: 20, left: 20, right: 10 }}
+                                        theme={VictoryTheme.material}
                                         animate={{
                                             duration: 500,
                                             onLoad: {duration: 500}
                                         }}>
-                                        <VictoryAxis style={{axis: {stroke: "none"} }} />
-                                        <VictoryPie
-                                            data={[
-                                                {x: " ", y: this.state.records[0].temperature },
-                                                {x: " ", y: 100 - this.state.records[0].temperature}
-                                            ]} 
-                                            colorScale={["tomato", "white"]}
-                                            innerRadius={100} labelRadius={200}
-                                            cornerRadius={({ datum }) => datum.y = 5}
+                                        <VictoryAxis 
+                                            style={{
+                                                tickLabels: { fontSize: 0},
+                                                ticks: {stroke: "none"}
+
+                                        }} />
+                                        <VictoryAxis dependentAxis
+                                            domain={[0, 100]}
+                                            style={{
+                                                tickLabels: { fontSize: 5 } 
+                                        }} />
+                                        <VictoryLine
+                                            data={this.state.records.slice(0,8).map(t => t.temperature)}
+                                            style={{ data: { stroke: "tomato" } }}
                                         />
-                                        <VictoryLabel
-                                            textAnchor="middle" 
-                                            verticalAnchor="middle"
-                                            x={200} y={200} 
-                                            text={this.state.records[0].temperature + "°C" }
-                                            style={{ fontSize: 55 }}/>
+                                        <VictoryScatter
+                                            data={this.state.records.slice(0,8).map(t => t.temperature)}
+                                            labels={this.state.records.slice(0,8).map(t => t.temperature + "°C")}
+                                            style={{ 
+                                                data: { fill: "tomato" },
+                                                labels: { fontSize: 5, fill: "tomato" } 
+                                            }}
+                                        />
                                     </VictoryChart>
-                            -    </div>
+                                </div>
                             }
-                    </CardBody>
-                </Card>{/*::: END Current Temperature Card :::*/}
+                        </CardBody>
+                    </Card>{/*::: END Historic Temperature Card :::*/}
+                </Grid>
+            </MediaQuery>{/*::: END Large breakpoint - +1008px :::*/}
 
-                {/*::: START Historic Temperature Card :::*/}
-                <Card 
-                    fluid
-                    className="CardyD"
-                    >
-                    <CardHeader>
-                        <Flex gap="gap.small">
-                            <Flex column>
-                                <Text size="medium" weight="bold" content="Temperature log" /> 
-                                <br/>
-                                {this.state.loading || !this.state.records ? 
-                                    <Text disabled size="small" content="Fetching timestamp..." />
-                                    : 
-                                    <Text timestamp content={this.state.records[0].time} />
-                                }
-                                <Divider />
-                            </Flex>
-                        </Flex>
-                    </CardHeader>
-                    <CardBody>
-                        {this.state.loading || !this.state.records ? 
-                            <Loader label="Fetching temperature history..."/> 
-                            : 
-                            <div> 
-                                <VictoryChart
-                                    height={100}
-                                    width={400}
-                                    padding={{ top: 15, bottom: 20, left: 20, right: 10 }}
-                                    theme={VictoryTheme.material}
-                                    animate={{
-                                        duration: 500,
-                                        onLoad: {duration: 500}
-                                    }}>
-                                    <VictoryAxis 
-                                        style={{
-                                            tickLabels: { fontSize: 0},
-                                            ticks: {stroke: "none"}
 
-                                    }} />
-                                    <VictoryAxis dependentAxis
-                                        domain={[0, 100]}
-                                        style={{
-                                            tickLabels: { fontSize: 5 } 
-                                    }} />
-                                    <VictoryLine
-                                        data={this.state.records.slice(0,8).map(t => t.temperature)}
-                                        style={{ data: { stroke: "tomato" } }}
-                                    />
-                                    <VictoryScatter
-                                        data={this.state.records.slice(0,8).map(t => t.temperature)}
-                                        labels={this.state.records.slice(0,8).map(t => t.temperature + "°C")}
-                                        style={{ 
-                                            data: { fill: "tomato" },
-                                            labels: { fontSize: 5, fill: "tomato" } 
-                                        }}
-                                    />
-                                </VictoryChart>
-                            </div>
-                        }
-                    </CardBody>
-                </Card>{/*::: END Historic Temperature Card :::*/}
-            </Grid>
+            <MediaQuery minWidth={640} maxWidth={1007}>
+                <Text>Appears between 640px and 1007px</Text>
+            </MediaQuery>
+
+            <MediaQuery minWidth={0} maxWidth={639}>
+                <Text>Appears when smaller that 640px</Text>
+            </MediaQuery>
+
         </Provider>
         );
     }// end render

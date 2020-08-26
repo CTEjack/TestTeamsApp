@@ -1,7 +1,8 @@
+/* 
 .CardWrapper{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(30vw, auto);
+    grid-auto-rows: minmax(20vw, auto);
     grid-gap: 10px;
 }
 .CardyB{
@@ -31,3 +32,4 @@
         grid-row: 2;
     }
 }
+*/
