@@ -1,11 +1,11 @@
 import * as React from "react";
-import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loader, Divider, Grid, Segment } from "@fluentui/react-northstar";
+import { Provider, Flex, Text, Header, Card, CardHeader, Avatar, CardBody, Loader, Divider, Grid, Segment, FlexItem } from "@fluentui/react-northstar";
 import TeamsBaseComponent, { ITeamsBaseComponentState } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
 import "../styles/styles.css";
 import { VictoryChart, VictoryScatter, VictoryTheme, VictoryPie, VictoryAnimation, VictoryLabel, VictoryAxis, VictoryLine, VictoryBar } from "victory";
 // import { useMediaQuery } from 'react-responsive';
-import MediaQuery from 'react-responsive';
+import MediaQuery from "react-responsive";
 import { IChatTabState } from "../chatTab/ChatTab";
 
 
@@ -95,14 +95,172 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
        -- small: smaller than 640px 
     */ 
     
-
     public render() {
+        // const timestamp = this.state.records[0].time;
+        // console.log(new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(this.state.records[0].time));
 
         return (
         <Provider 
             theme={this.state.theme}>
             {/* https://fluentsite.z22.web.core.windows.net/layout */}
 
+            {/*::: START small breakpoint :::*/} 
+            <MediaQuery minWidth={0} maxWidth={639}>
+                <Text>Appears when smaller that 640px</Text>
+                <Flex 
+                    fill={true} 
+                    column 
+                    gap="gap.small"
+                    styles={{
+                        padding: ".8rem 0 .2rem .5rem"}}>
+                    
+                    {/*::: START current voltage card - small viewport :::*/} 
+                    <Flex.Item>
+                        <Card 
+                            fluid
+                            styles={{
+                                gridColumn: 'span 3',
+                            }}>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Flex column>
+                                        <Text size="medium" weight="bold" content="Current voltage" /> 
+                                        <br/>
+                                        {this.state.loading || !this.state.records ? 
+                                            <Text disabled size="small" content="Fetching timestamp..." />
+                                            : 
+                                            <Text timestamp content={this.state.records[0].time} />
+                                        }
+                                        <Divider />
+                                    </Flex>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.records ? 
+                                    <Loader label="Fetching current voltage..."/> 
+                                    : 
+                                    <div>
+                                        <Text size="larger" weight="semibold" style={{color: "tomato"}} content={this.state.records[0].voltage + " volts"} />
+                                        <br />
+                                        <VictoryChart
+                                            horizontal
+                                            padding={{ top: 10, bottom: 25, left: 0, right: 15 }}
+                                            height={25}
+                                            theme={VictoryTheme.material}
+                                        >
+                                            <VictoryBar
+                                                style={{data: {fill: "tomato"}}}
+                                                data={[
+                                                    {sensor: " ", value: this.state.records[0].voltage},
+                                                ]}
+                                                x="sensor"
+                                                y="value"
+                                                barWidth={2}
+                                                animate={{
+                                                    duration: 500,
+                                                    onLoad: {duration: 500}
+                                                    }}                                            
+                                            />
+                                            <VictoryAxis 
+                                                dependentAxis
+                                                domain={[0, 220]}
+                                                tickCount={12}
+                                                style={{
+                                                    tickLabels: { fontSize: 8 },
+                                                    ticks: {opacity: 0.25},
+                                                    axisLabel: {display: "none"},
+                                                    axis: {display: "none"}
+                                                }}
+                                            />
+                                        </VictoryChart>
+                                    </div>
+                                    }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
+                    {/*::: END current voltage card - small viewport :::*/} 
+
+                    {/*::: START current temperature card - small viewport :::*/} 
+                    <Flex.Item>
+                        <Card 
+                            fluid
+                            styles={{
+                                gridColumn: 'span 3',
+                            }}>
+                            <CardHeader>
+                                <Flex gap="gap.small">
+                                    <Flex column>
+                                        <Text size="medium" weight="bold" content="Current temperature" /> 
+                                        <br/>
+                                        {this.state.loading || !this.state.records ? 
+                                            <Text disabled size="small" content="Fetching timestamp..." />
+                                            : 
+                                            <Text timestamp content={this.state.records[0].time} />
+                                        }
+                                        <Divider />
+                                    </Flex>
+                                </Flex>
+                            </CardHeader>
+                            <CardBody>
+                                {this.state.loading || !this.state.records ? 
+                                    <Loader label="Fetching current temperature..."/> 
+                                    : 
+                                    <div>
+                                        <Text size="larger" weight="semibold" style={{color: "tomato"}} content={this.state.records[0].temperature  + "°C"} />
+                                        <br />
+                                        <VictoryChart
+                                            horizontal
+                                            padding={{ top: 10, bottom: 25, left: 0, right: 15 }}
+                                            height={25}
+                                            theme={VictoryTheme.material}
+                                        >
+                                            <VictoryBar
+                                                data={[
+                                                    {sensor: " ", value: this.state.records[0].temperature},
+                                                ]}
+                                                x="sensor"
+                                                y="value"
+                                                // labels={this.state.records.slice(0,1).map(t => t.temperature + "°C")}
+                                                // labelComponent={<VictoryLabel dy={-6} dx={-8}  />}
+                                                barWidth={2}
+                                                animate={{
+                                                    duration: 500,
+                                                    onLoad: {duration: 500}
+                                                }}
+                                                style={{
+                                                    data: {fill: "tomato"},
+                                                    // labels: { fontSize: 10, fill: "tomato" }
+                                                }}
+                                            />
+                                            <VictoryAxis 
+                                                dependentAxis
+                                                domain={[0, 100]}
+                                                tickCount={10}
+                                                style={{
+                                                    tickLabels: { fontSize: 8 },
+                                                    ticks: {opacity: 0.25},
+                                                    axisLabel: {display: "none"},
+                                                    axis: {display: "none" }
+                                                }}
+                                            />
+                                        </VictoryChart>
+                                    </div>
+                                    }
+                            </CardBody>
+                        </Card>
+                    </Flex.Item>
+                    {/*::: END current temperature card - small viewport :::*/}
+
+
+                </Flex>
+            </MediaQuery>
+
+            {/*::: START medium breakpoint :::*/}                      
+            <MediaQuery minWidth={640} maxWidth={1007}>
+                <Text>Appears between 640px and 1007px</Text>
+            </MediaQuery>
+
+            {/*::: START large breakpoint :::*/}
             <MediaQuery minWidth={1008}>
                 <Text>Appears when larger than 1224px</Text>
                 <Grid
@@ -115,7 +273,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                         gridRowGap: '10px'
                     }}>
                     
-                    {/* START Current Voltage Card */}
+                    {/* START Current Voltage Card - large viewport */}
                     <Card 
                         fluid
                         styles={{
@@ -171,9 +329,9 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                 </div>
                             }
                         </CardBody>
-                    </Card>{/* END Current Voltage Card */}
+                    </Card>{/* END Current Voltage Card - large viewport */}
                     
-                    {/*::: START Current Temperature Card :::*/}
+                    {/*::: START Current Temperature Card - large viewport :::*/}
                     <Card 
                         fluid
                         styles={{
@@ -225,9 +383,9 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                     </div>
                                 }
                         </CardBody>
-                    </Card>{/*::: END Current Temperature Card :::*/}
+                    </Card>{/*::: END Current Temperature Card - large viewport :::*/}
 
-                    {/*::: START Historic Temperature Card :::*/}
+                    {/*::: START Historic Temperature Card - large viewport :::*/}
                     <Card 
                         fluid
                         styles={{
@@ -269,6 +427,7 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                         }} />
                                         <VictoryAxis dependentAxis
                                             domain={[0, 100]}
+                                            tickCount={10 }
                                             style={{
                                                 tickLabels: { fontSize: 5 } 
                                         }} />
@@ -288,18 +447,9 @@ export class DigitalWorkPackage extends TeamsBaseComponent<SensorRecordsProps, S
                                 </div>
                             }
                         </CardBody>
-                    </Card>{/*::: END Historic Temperature Card :::*/}
+                    </Card>{/*::: END Historic Temperature Card - large viewport :::*/}
                 </Grid>
             </MediaQuery>{/*::: END Large breakpoint - +1008px :::*/}
-
-
-            <MediaQuery minWidth={640} maxWidth={1007}>
-                <Text>Appears between 640px and 1007px</Text>
-            </MediaQuery>
-
-            <MediaQuery minWidth={0} maxWidth={639}>
-                <Text>Appears when smaller that 640px</Text>
-            </MediaQuery>
 
         </Provider>
         );
